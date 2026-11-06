@@ -80,3 +80,16 @@ def test_malformed_apk_is_reported_without_execution(client):
     )
     assert response.status_code == 200
     assert any(item["title"] == "Invalid APK/archive structure" for item in response.json()["findings"])
+
+
+def test_url_secrets_are_redacted_from_report_and_history(client):
+    response = client.post(
+        "/api/analyze/url",
+        json={"url": "https://user:password@example.test/path?token=super-secret"},
+    )
+    assert response.status_code == 200
+    report = response.json()
+    assert "password" not in report["target"]
+    assert "super-secret" not in report["target"]
+    assert report["target"].endswith("?[query redacted]")
+    assert report["metadata"]["credentials_present"] is True
