@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#080b12">
+  <title>PHANTOM-AI | Security Intelligence</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/static/styles.css">
+</head>
+<body>
+  <div class="shell">
+    <aside class="sidebar">
+      <a class="brand" href="#"><span class="brand-mark">P</span><span>PHANTOM<span class="brand-ai">.AI</span><small>SECURITY INTELLIGENCE</small></span></a>
+      <div class="side-label">WORKSPACE</div>
+      <button class="nav active" data-view="overview"><span>◈</span> Overview</button>
+      <button class="nav" data-view="analysis"><span>⌁</span> Analysis lab</button>
+      <button class="nav" data-view="reports"><span>▤</span> Reports</button>
+      <div class="side-label second">INTELLIGENCE</div>
+      <div class="module"><i class="pulse"></i><span>File intelligence</span><b>ON</b></div>
+      <div class="module"><i class="pulse"></i><span>URL triage</span><b>ON</b></div>
+      <div class="module muted"><i></i><span>APK deep analysis</span><b>SOON</b></div>
+      <div class="sidebar-bottom"><div class="system-card"><div class="system-top"><span>ENGINE STATUS</span><i class="pulse"></i></div><strong>Operational</strong><small>Local analysis engine · v0.1</small></div><div class="user"><div class="avatar">A</div><div><strong>Analyst workspace</strong><small>Local administrator</small></div><span class="dots">•••</span></div></div>
+    </aside>
+    <main class="main">
+      <header class="topbar"><div><div class="eyebrow">THREAT RESEARCH / <span id="pageName">OVERVIEW</span></div><h1 id="pageTitle">Security overview</h1></div><div class="top-actions"><span class="live"><i class="pulse"></i> SYSTEM LIVE</span><button class="icon-btn" title="Refresh" id="refresh">↻</button><div class="top-avatar">A</div></div></header>
+      <section class="view" id="overviewView">
+        <div class="hero"><div class="hero-grid"></div><div class="hero-content"><div class="hero-kicker"><span></span> DEFENSIVE INTELLIGENCE PLATFORM</div><h2>See beyond the<br><em>obvious threat.</em></h2><p>Investigate files and URLs. Turn technical signals into security decisions.</p><button class="primary" id="startAnalysis">Launch analysis <span>↗</span></button></div><div class="hero-orb"><div class="orb-ring ring-one"></div><div class="orb-ring ring-two"></div><div class="orb-core">P<span>AI</span></div><div class="orb-caption">PHANTOM ENGINE<br><b>READY</b></div></div><div class="hero-foot"><span>01 / INTELLIGENCE</span><span>BUILT FOR DEFENDERS</span><span>LOCAL-FIRST ANALYSIS</span></div></div>
+        <div class="section-head"><div><div class="eyebrow">LIVE TELEMETRY</div><h3>Command overview</h3></div><span class="updated" id="updated">Awaiting telemetry</span></div>
+        <div class="stats"><article class="stat"><div class="stat-label">TOTAL ANALYSES <span>↗</span></div><strong id="totalStat">0</strong><small>All recorded investigations</small><div class="stat-line"></div></article><article class="stat"><div class="stat-label">HIGH RISK <span class="red-dot"></span></div><strong id="highStat">0</strong><small>Require immediate review</small><div class="stat-line red"></div></article><article class="stat"><div class="stat-label">REVIEW REQUIRED <span class="amber-dot"></span></div><strong id="reviewStat">0</strong><small>Signals need validation</small><div class="stat-line amber"></div></article><article class="stat"><div class="stat-label">LOW / INFO <span class="green-dot"></span></div><strong id="safeStat">0</strong><small>No high-risk score detected</small><div class="stat-line green"></div></article></div>
+        <div class="content-grid"><section class="panel"><div class="panel-head"><div><div class="eyebrow">INVESTIGATION FEED</div><h3>Recent analyses</h3></div><button class="text-btn" data-goto="reports">View all ↗</button></div><div id="recentList" class="recent-list"><div class="empty">No investigations yet. Launch your first analysis.</div></div></section><section class="panel quick-panel"><div class="eyebrow">QUICK ACTIONS</div><h3>Start an investigation</h3><button class="quick-action" data-goto="analysis"><span class="quick-icon">⌕</span><span><b>Analyze a URL</b><small>Offline risk indicators & structure</small></span><strong>↗</strong></button><button class="quick-action" data-goto="analysis"><span class="quick-icon">⇧</span><span><b>Inspect a file</b><small>Hash, entropy & static indicators</small></span><strong>↗</strong></button><div class="notice"><span>i</span><p>PHANTOM-AI is an early defensive triage build. Results are indicators, not a malware verdict.</p></div></section></div>
+      </section>
+      <section class="view hidden" id="analysisView">
+        <div class="section-head"><div><div class="eyebrow">ANALYSIS WORKBENCH</div><h3>Choose your investigation</h3><p class="sub">Run a local-first assessment on a URL or a file you are authorized to inspect.</p></div></div>
+        <div class="analysis-grid"><section class="panel analyzer"><div class="analyzer-icon">⌕</div><div class="eyebrow">01 / URL INTELLIGENCE</div><h3>Inspect a destination</h3><p>Check URL structure for common deception patterns. This mode does not visit the website.</p><form id="urlForm"><label for="urlInput">URL OR DOMAIN</label><div class="input-wrap"><span>↗</span><input id="urlInput" type="text" placeholder="https://example.com" required maxlength="2048"></div><button class="primary full" type="submit">Analyze URL <span>↗</span></button></form></section><section class="panel analyzer"><div class="analyzer-icon">⇧</div><div class="eyebrow">02 / FILE INTELLIGENCE</div><h3>Inspect a file</h3><p>Calculate SHA-256, entropy and static indicators. APK/ZIP files are inspected without executing them.</p><form id="fileForm"><label class="dropzone" for="fileInput"><span class="upload-symbol">＋</span><b id="fileLabel">Drop a file here or browse</b><small>Max 25 MB · APK, ZIP, source & common binaries</small></label><input id="fileInput" type="file" hidden><button class="primary full" type="submit">Analyze file <span>↗</span></button></form></section></div>
+        <div id="resultPanel" class="panel result-panel hidden"><div class="panel-head"><div><div class="eyebrow">INVESTIGATION RESULT</div><h3 id="resultTitle">Analysis complete</h3></div><span id="resultBadge" class="risk-badge">LOW RISK</span></div><div class="result-summary"><div class="score-ring" id="scoreRing"><strong id="scoreValue">0</strong><small>RISK SCORE</small></div><div><div class="eyebrow">TARGET</div><h3 id="resultTarget">—</h3><p id="resultMeta" class="sub"></p><button id="downloadReport" class="text-btn">Download JSON report ↓</button></div></div><div class="eyebrow finding-heading">FINDINGS & EVIDENCE</div><div id="findingsList"></div><div class="notice"><span>!</span><p>Automated triage only. Validate findings manually. A low score does not prove a file or destination is safe.</p></div></div>
+      </section>
+      <section class="view hidden" id="reportsView"><div class="section-head"><div><div class="eyebrow">CASE ARCHIVE</div><h3>Investigation reports</h3><p class="sub">A local history of analyses performed by this workspace.</p></div><button class="icon-btn" id="refreshReports">↻</button></div><section class="panel"><div id="allReports" class="recent-list"><div class="empty">Loading reports…</div></div></section></section>
+      <footer><span>PHANTOM-AI <b>0.1.0</b></span><span>DEFENSIVE SECURITY WORKBENCH</span><span>LOCAL-FIRST · HUMAN-VERIFIED</span></footer>
+    </main>
+  </div>
+  <div id="toast" class="toast"></div>
+  <script src="/static/app.js"></script>
+</body>
+</html>
