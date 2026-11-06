@@ -96,7 +96,7 @@ def save_scan(kind, target, findings, metadata=None):
         "created_at": now(),
         "findings": findings,
         "metadata": metadata or {},
-        "notice": "Automated triage only. Findings require human validation; absence of findings is not proof of safety."
+        "notice": ("Offline URL triage: no network request or reputation lookup was performed. Findings require human validation; absence of findings is not proof of safety." if kind == "URL TRIAGE" else "Automated static triage only. Findings require human validation; absence of findings is not proof of safety.")
     }
     with db() as conn:
         conn.execute(
@@ -107,12 +107,20 @@ def save_scan(kind, target, findings, metadata=None):
 
 def analyze_url(value: str):
     raw = value.strip()
+    if not raw or len(raw) > 2048:
+        raise HTTPException(400, "Enter a URL or domain up to 2048 characters.")
     candidate = raw if "://" in raw else "https://" + raw
-    parsed = urlparse(candidate)
-    findings = []
-    if parsed.scheme not in ("http", "https") or not parsed.hostname or any(ch.isspace() for ch in parsed.hostname) or "%" in parsed.hostname:
+    try:
+        parsed = urlparse(candidate)
+        host_value = parsed.hostname
+        # Accessing .port validates malformed port syntax.
+        parsed.port
+    except ValueError:
         raise HTTPException(400, "Enter a valid http or https URL or domain.")
-    host = parsed.hostname.lower()
+    findings = []
+    if parsed.scheme not in ("http", "https") or not host_value or any(ch.isspace() for ch in host_value) or "%" in host_value:
+        raise HTTPException(400, "Enter a valid http or https URL or domain.")
+    host = host_value.lower()
     if parsed.scheme == "http":
         findings.append({"severity": "MEDIUM", "title": "Unencrypted transport", "detail": "The URL uses HTTP. Data may be exposed in transit."})
     if "@" in parsed.netloc:
