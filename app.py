@@ -138,7 +138,14 @@ def analyze_url(value: str):
         findings.append({"severity": "LOW", "title": "Long query string", "detail": "A long query string can obscure tracking or redirect parameters."})
     if not findings:
         findings.append({"severity": "INFO", "title": "No obvious URL red flags", "detail": "Only local syntax heuristics were checked. No network request or reputation lookup was performed."})
-    return save_scan("URL TRIAGE", raw, findings, {"hostname": host, "scheme": parsed.scheme, "path": parsed.path or "/"})
+    # Do not persist URL credentials or query values, which may contain access tokens.
+    safe_netloc = host
+    if parsed.port:
+        safe_netloc += ":" + str(parsed.port)
+    safe_target = parsed.scheme + "://" + safe_netloc + (parsed.path or "/")
+    if parsed.query:
+        safe_target += "?[query redacted]"
+    return save_scan("URL TRIAGE", safe_target, findings, {"hostname": host, "scheme": parsed.scheme, "path": parsed.path or "/", "query_present": bool(parsed.query), "credentials_present": bool(parsed.username or parsed.password)})
 
 async def analyze_file(upload: UploadFile):
     name = Path(upload.filename or "uploaded-file").name
