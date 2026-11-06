@@ -110,7 +110,7 @@ def analyze_url(value: str):
     candidate = raw if "://" in raw else "https://" + raw
     parsed = urlparse(candidate)
     findings = []
-    if parsed.scheme not in ("http", "https") or not parsed.hostname:
+    if parsed.scheme not in ("http", "https") or not parsed.hostname or any(ch.isspace() for ch in parsed.hostname) or "%" in parsed.hostname:
         raise HTTPException(400, "Enter a valid http or https URL or domain.")
     host = parsed.hostname.lower()
     if parsed.scheme == "http":
